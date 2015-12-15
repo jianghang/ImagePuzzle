@@ -3,11 +3,14 @@ package com.hangjiang.puzzle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -17,12 +20,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GuideActivity extends Activity {
+	
+	private static final String TAG = "GuideActivity";
 
 	private ImageView ivUp;
 	private ImageView ivDown;
 	private ImageView ivLeft;
 	private ImageView ivRight;
 	private TextView tvGuide;
+	private int mScreenWidth;
+	private int mScreenHeight;
+	private double mMoveX;
+	private double mMoveY;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +39,33 @@ public class GuideActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_guide);
 		
+		WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+		Point point = new Point();
+		wm.getDefaultDisplay().getSize(point);
+		mScreenWidth = point.x;
+		mScreenHeight = point.y;
+		
+		mMoveX = mScreenWidth / 2 * 0.7;
+		mMoveY = mScreenHeight / 2 * 0.8;
+		
+		Log.d(TAG, "mMoveX: " + mMoveX + "mScreenWidth: " + mScreenWidth);
+		
 		ivUp = (ImageView) findViewById(R.id.iv_up);
 		ivDown = (ImageView)findViewById(R.id.iv_down);
 		ivLeft = (ImageView)findViewById(R.id.iv_left);
 		ivRight = (ImageView)findViewById(R.id.iv_right);
 		tvGuide = (TextView)findViewById(R.id.guide_tv);
 		
-		AnimationSet asUp = createAnimation(0, 0, 0, 550, 1000);
+		AnimationSet asUp = createAnimation(0, 0, 0, (float)mMoveY, 1000);
 		ivUp.startAnimation(asUp);
 		
-		AnimationSet asDown = createAnimation(0, 0, 0, -550, 1000);
+		AnimationSet asDown = createAnimation(0, 0, 0, (float)-mMoveY, 1000);
 		ivDown.startAnimation(asDown);
 		
-		AnimationSet asLeft = createAnimation(0, 240, 0, 0, 1000);
+		AnimationSet asLeft = createAnimation(0, (float)mMoveX, 0, 0, 1000);
 		ivLeft.startAnimation(asLeft);
 		
-		AnimationSet asRight = createAnimation(0, -240, 0, 0, 1000);
+		AnimationSet asRight = createAnimation(0, (float)-mMoveX, 0, 0, 1000);
 		ivRight.startAnimation(asRight);
 		
 		AlphaAnimation alpha = new AlphaAnimation(0, (float) 1.0);
