@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="text_title">24sp</dimen>
+    <dimen name="padding">8sp</dimen>
+    <dimen name="text_btn">20sp</dimen>
+    <dimen name="text_title_sub">18sp</dimen>
+    <dimen name="text_game">20sp</dimen>
+
+</resources>

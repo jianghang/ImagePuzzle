@@ -2,11 +2,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
     tools:context="${relativePackage}.${activityClass}" >
-
-    <TextView
+    
+    <LinearLayout 
+        android:id="@+id/ll_main_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_circle_bg"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp">
+        
+        <TextView 
+            android:id="@+id/tv_main_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/puzzle_main_type"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/text_title"/>
+        
+        <TextView 
+            android:id="@+id/tv_main_type_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_click"
+            android:text="@string/puzzle_main_type_selected"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/text_title"/>
+    </LinearLayout>
+    
+    <GridView 
+        android:background="@drawable/gridview_bg"
+        android:id="@+id/gv_main_pic_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@id/ll_main_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/padding"
+        android:gravity="center_horizontal"
+        android:horizontalSpacing="@dimen/padding"
+        android:numColumns="4"
+        android:padding="@dimen/padding"
+        android:verticalSpacing="@dimen/padding"></GridView>
 
 </RelativeLayout>
