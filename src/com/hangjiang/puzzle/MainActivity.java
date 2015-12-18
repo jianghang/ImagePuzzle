@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,7 +54,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView mTvType2;
 	private TextView mTvType3;
 	private TextView mTvType4;
-	private String[] mSelectType = new String[] { "2x2", "3x3", "4x4" };
+	private String[] mSelectType = new String[] { "2x2", "3x3", "4x4","6x6"};
 	private String[] mCustomItems = new String[] { "本地图册", "相机拍照" };
 	protected int mType = 2;
 	private TextView tvSelectMain;
@@ -111,6 +113,16 @@ public class MainActivity extends Activity implements OnClickListener {
 					mResPicId[i]);
 			mPicList.add(bitmaps[i]);
 		}
+		
+		SharedPreferences sp = getSharedPreferences("Best_Score", MODE_PRIVATE);
+		if(!sp.contains("Type2")){
+			Editor editor = sp.edit();
+			editor.putInt("Type" + 2, 65535);
+			editor.putInt("Type" + 3, 65535);
+			editor.putInt("Type" + 4, 65535);
+			editor.putInt("Type" + 6, 65535);
+			editor.commit();
+		}
 	}
 
 	private void popupShow(View view) {
@@ -144,6 +156,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				} else if (2 == which) {
 					mType = 4;
 					tvSelect.setText("4 X 4");
+				} else if (3 == which){
+					mType = 6;
+					tvSelect.setText("6 X 6");
 				}
 			}
 		});

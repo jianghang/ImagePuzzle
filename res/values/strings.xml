@@ -14,6 +14,6 @@
     <string name="puzzle_main_more">了解更多</string>
     <string name="title_activity_guide">GuideActivity</string>
     <string name="guide_text">ImagePuzzle</string>
-    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_game">Game</string>
 
 </resources>

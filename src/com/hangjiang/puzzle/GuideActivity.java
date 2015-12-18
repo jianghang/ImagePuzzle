@@ -1,5 +1,7 @@
 package com.hangjiang.puzzle;
 
+import com.hangjiang.puzzle.util.ScreenUtil;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,9 +46,15 @@ public class GuideActivity extends Activity {
 		wm.getDefaultDisplay().getSize(point);
 		mScreenWidth = point.x;
 		mScreenHeight = point.y;
+
+		if(mScreenWidth == 1080){
+			mMoveX = mScreenWidth / 2 * 0.42f;
+			mMoveY = mScreenHeight / 2 * 0.62f;
+		}else{
+			mMoveX = mScreenWidth / 2 * 0.44f;
+			mMoveY = mScreenHeight / 2 * 0.64f;
+		}
 		
-		mMoveX = mScreenWidth / 2 * 0.7;
-		mMoveY = mScreenHeight / 2 * 0.8;
 		
 		Log.d(TAG, "mMoveX: " + mMoveX + "mScreenWidth: " + mScreenWidth);
 		
