@@ -17,6 +17,15 @@ import android.media.ExifInterface;
 public class ImageUtil {
 	private ItemBean itemBean;
 
+	/**   
+	* @Title: createInitBitmaps   
+	* @Description: 生成游戏界面所需要的小图片
+	* @param type
+	* @param picSelected
+	* @param context      
+	* @return: void      
+	* @throws   
+	*/  
 	public void createInitBitmaps(int type, Bitmap picSelected, Context context) {
 		Bitmap bitmap = null;
 		List<Bitmap> bitmapItems = new ArrayList<Bitmap>();
@@ -24,6 +33,7 @@ public class ImageUtil {
 		int bpItemWidth = picSelected.getWidth() / type;
 		int bpItemHeight = picSelected.getHeight() / type;
 
+		//根据游戏难度切割图片，同时打上标签
 		for (int i = 1; i <= type; i++) {
 			for (int j = 1; j <= type; j++) {
 				bitmap = Bitmap.createBitmap(picSelected,
@@ -36,6 +46,7 @@ public class ImageUtil {
 			}
 		}
 
+		//移除最后一张图片，并同时添加空白图片
 		GameActivity.mLastBitmap = bitmapItems.get(type * type - 1);
 		bitmapItems.remove(type * type - 1);
 		GameUtil.mItemBeans.remove(type * type - 1);
@@ -49,6 +60,7 @@ public class ImageUtil {
 		GameUtil.mBlankItemBean = GameUtil.mItemBeans.get(type * type - 1);
 	}
 
+	//缩放到指定的宽度
 	public Bitmap resizeBitmap(float newWidth, float newHeight, Bitmap bitmap) {
 		Matrix matrix = new Matrix();
 		matrix.setScale(newWidth / bitmap.getWidth(),
@@ -59,6 +71,7 @@ public class ImageUtil {
 		return newBitmap;
 	}
 	
+	//检测从相册加载的图片是否是正方向的，如果不是则调整
 	public static Bitmap rotateImage(Bitmap bm, String filepath) {
 		try {
 			ExifInterface exifInterface = new ExifInterface(filepath);

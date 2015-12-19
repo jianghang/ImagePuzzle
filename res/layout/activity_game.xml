@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/padding"
+            android:layout_margin="5dp"
             android:gravity="center"
             android:numColumns="3" >
         </GridView>
@@ -45,36 +45,35 @@
             android:id="@+id/rl_operate_main"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="3">
             
             <Button 
                 android:id="@+id/btn_operate_up"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/button_operate_up_bg"/>
             
             <Button 
                 android:id="@+id/btn_operate_left"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerVertical="true"
                 android:background="@drawable/button_operate_left_bg"/>
             
             <Button 
                 android:id="@+id/btn_operate_down"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/button_operate_down_bg"/>
             
             <Button 
                 android:id="@+id/btn_operate_right"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/button_operate_right_bg"/>

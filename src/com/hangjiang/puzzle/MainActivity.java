@@ -34,30 +34,38 @@ import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+/**
+
+* <p>Title: MainActivity</p>
+
+* <p>Description: 此游戏的设计方法，封装一个ItemBean类，初始化时纪录每个拼图小图片的ItemId、BitmapId、Bitmap，之后
+* 随机打乱小图片的BitmapId和Bitmap,
+* 游戏玩的过程中不断交换BitmapId、Bitmap,完成的条件是ItemId和BitmapId相等</p>
+
+* <p>Company: LTGames</p>
+
+* @author    hang
+
+* @date       2015年12月19日
+
+*/
 public class MainActivity extends Activity implements OnClickListener {
 
-	// 返回码：系统图库
-	private static final int RESULT_IMAGE = 100;
-	// 返回码：相机
-	private static final int RESULT_CAMERA = 200;
-	// IMAGE TYPE
+	private static final int RESULT_IMAGE = 100;//本地图库
+	private static final int RESULT_CAMERA = 200;//相机
 	private static final String IMAGE_TYPE = "image/*";
-	// Temp照片路径
-	public static String TEMP_IMAGE_PATH;
+	public static String TEMP_IMAGE_PATH;//图片路径
+	
 	private GridView mGridList;
 	private int[] mResPicId;
 	private ArrayList<Bitmap> mPicList;
-	private PopupWindow mPopupWindow;
 	private TextView tvSelect;
-	private LayoutInflater mLayoutInflater;
-	private View mPopupView;
-	private TextView mTvType2;
-	private TextView mTvType3;
-	private TextView mTvType4;
 	private String[] mSelectType = new String[] { "2x2", "3x3", "4x4","6x6"};
 	private String[] mCustomItems = new String[] { "本地图册", "相机拍照" };
 	protected int mType = 2;
 	private TextView tvSelectMain;
+	private int mScreenWidth;
+	private int mScreenHeight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +99,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		tvSelect.setOnClickListener(this);
 		tvSelectMain = (TextView)findViewById(R.id.tv_main_select);
 		tvSelectMain.setOnClickListener(this);
-
-		mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		mPopupView = mLayoutInflater.inflate(R.layout.main_type_select, null);
-		mTvType2 = (TextView) mPopupView.findViewById(R.id.tv_main_type_2);
-		mTvType3 = (TextView) mPopupView.findViewById(R.id.tv_main_type_3);
-		mTvType4 = (TextView) mPopupView.findViewById(R.id.tv_main_type_4);
 	}
 
 	private void initData() {
+		
+		//初始化图片数据
 		mPicList = new ArrayList<Bitmap>();
 		mResPicId = new int[] { R.drawable.pic1, R.drawable.pic2,
 				R.drawable.pic3, R.drawable.pic4, R.drawable.pic5,
@@ -123,21 +127,14 @@ public class MainActivity extends Activity implements OnClickListener {
 			editor.putInt("Type" + 6, 65535);
 			editor.commit();
 		}
-	}
-
-	private void popupShow(View view) {
-		int density = (int) ScreenUtil.getDeviceDensity(this);
-		mPopupWindow = new PopupWindow(mPopupView, 200 * density, 50 * density);
-		mPopupWindow.setFocusable(true);
-		mPopupWindow.setOutsideTouchable(true);
-
-		Drawable transpent = new ColorDrawable(Color.TRANSPARENT);
-		mPopupWindow.setBackgroundDrawable(transpent);
-
-		int[] location = new int[2];
-		view.getLocationOnScreen(location);
-		mPopupWindow.showAtLocation(view, Gravity.NO_GRAVITY, location[0] - 40
-				* density, location[1] + 30 * density);
+		if(!sp.contains("isShowOperateMain")){
+			Editor editor = sp.edit();
+			editor.putBoolean("isShowOperateMain", false);
+			editor.commit();
+		}
+		
+		mScreenWidth = ScreenUtil.getScreenSize(this).widthPixels;
+		mScreenHeight = ScreenUtil.getScreenSize(this).heightPixels;
 	}
 
 	private void showSelectDialog() {
@@ -175,6 +172,9 @@ public class MainActivity extends Activity implements OnClickListener {
 				if (0 == which) {
 					// 本地图册
 					Intent intent = new Intent(Intent.ACTION_PICK, null);
+					intent.putExtra("outputX", (int)mScreenWidth * 0.9f);  
+					intent.putExtra("outputY", (int)mScreenHeight * 0.7f);  
+					intent.putExtra("scale", true);
 					intent.setDataAndType(
 							MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 							IMAGE_TYPE);
@@ -197,6 +197,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == RESULT_IMAGE && data != null) {
+				//对本地图库返回的图片进行处理
 				Cursor cursor = this.getContentResolver().query(data.getData(),
 						null, null, null, null);
 				cursor.moveToFirst();
@@ -208,6 +209,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				cursor.close();
 				startActivity(intent);
 			} else if (requestCode == RESULT_CAMERA) {
+				//对相机返回的图片进行处理
 				Intent intent = new Intent(MainActivity.this, GameActivity.class);
 				intent.putExtra("mPicPath", TEMP_IMAGE_PATH);
 				intent.putExtra("mType", mType);

@@ -14,12 +14,13 @@ public class GameUtil {
 	public static List<ItemBean> mItemBeans = new ArrayList<ItemBean>();
 	public static ItemBean mBlankItemBean = new ItemBean();
 
+	//生成随机的图片
 	public static void getCreateRandomItem() {
 		int index = 0;
 		for (int i = 0; i < mItemBeans.size(); i++) {
 			index = (int) (Math.random() * GameActivity.TYPE * GameActivity.TYPE);
 
-			Log.d(TAG, "index: " + index);
+			Log.d(TAG, "index: " + index + " RandomNumber: " + Math.random());
 
 			swapItems(mItemBeans.get(index), mBlankItemBean);
 		}
@@ -35,6 +36,7 @@ public class GameUtil {
 		}
 	}
 
+	//检测随机出来的图片是否可解，使用倒置变量值得算法
 	private static boolean canSolve(List<Integer> data) {
 		int blankId = GameUtil.mBlankItemBean.getmItemId();
 		if (data.size() % 2 == 1) {
@@ -88,7 +90,7 @@ public class GameUtil {
 			return true;
 		}
 
-		if ((blankId / type == position / type)
+		if ((blankId / type == position / type)//检测空白格和所触碰的格子是否在同一行
 				&& Math.abs(blankId - position) == 1) {
 			return true;
 		}
